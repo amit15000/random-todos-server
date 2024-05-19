@@ -73,3 +73,75 @@ two services like backend 1 , backend 2 can't run on same port.
 
 Reverse Proxy Service ( on port 80) determines by url --> It need to hit port 8080 or 8081 
 Indirectlly => Reverse Proxy provides to access multile ports --> by using one port adderess(default port address) 
+
+
+
+
+# Host File in Windwos
+C:\Windows\System32\drivers\etc
+
+ip_address domain_name
+
+example =>
+
+8.8.8.8 reuters.com
+
+
+
+
+
+# NGINX
+
+NGINX is open source software for web serving, reverse proxying, caching, load balancing, media streaming and more.
+
+
+``` bash
+sudo apt update
+sudo apt install nginx
+```
+
+
+
+``` bash
+sudo rm sudo vi /etc/nginx/nginx.conf
+sudo vi /etc/nginx/nginx.conf
+```
+
+
+# Update the content of the nginx.conf to this content
+``` bash
+events {
+    # Event directives...
+}
+
+http {
+	server {
+    listen 80;
+    server_name aws.todos.com;
+
+    # As this dns is not purchased ==> So I have pointed this to my was public ip in the HOST FIle C:\Windows\System32\drivers\etc
+
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+	}
+}
+```
+
+
+
+# HTTPS certification
+
+You can get certification from the various organizations.
+Get Free Certification from Lets Encrypt
+
+# CertBot Certification
+
+``` bash 
+https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal
+```
